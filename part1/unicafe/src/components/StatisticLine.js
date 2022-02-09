@@ -1,10 +1,10 @@
 import React from 'react';
 
-const StatisticLine = (props) => {
+const StatisticLine = ({ text, count }) => {
   return (
     <tr>
       <td>
-        {props.text}: {props.count}
+        {text}: {count}
       </td>
     </tr>
   );

@@ -7,6 +7,13 @@ const Statistics = ({ clicks }) => {
     : 0;
   const positive = all ? (clicks.good / (100 / all)).toFixed(2) + '%' : 0;
 
+  if (all === 0) {
+    return (
+      <>
+        <p>no feedback given</p>
+      </>
+    );
+  }
   return (
     <div>
       <table>
