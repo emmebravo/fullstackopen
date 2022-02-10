@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Header from './components/Header';
 import Button from './components/Button';
+import Display from './components/Display';
 
 function App() {
   const anecdotes = [
@@ -36,15 +37,20 @@ function App() {
     }));
   };
 
+  const values = Object.values(votes);
+  const maxVotesIdx = values.indexOf(Math.max(...values));
+  const maxVotes = Math.max(...values);
+
   return (
     <div>
       <Header text='Anecdote of the Day' />
-      <p>{anecdotes[selected]}</p>
-      <p>has {votes[selected]} votes</p>
-
+      <Display anecdote={anecdotes[selected]} text={votes[selected]} />
       <Button onClick={voting} text='vote' />
       <Button onClick={randomize} text='next anecdote' />
       <Header text='Anecdote with Most Votes' />
+      {maxVotes > 0 && (
+        <Display anecdote={anecdotes[maxVotesIdx]} text={maxVotes} />
+      )}
     </div>
   );
 }
