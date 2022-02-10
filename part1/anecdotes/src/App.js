@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import Header from './components/Header';
+import Button from './components/Button';
 
 function App() {
   const anecdotes = [
@@ -12,8 +14,15 @@ function App() {
   ];
 
   const [selected, setSelected] = useState(0);
-  const votesArr = Array(anecdotes.length).fill(0);
-  const [votes, setVotes] = useState([votesArr]);
+  const [votes, setVotes] = useState({
+    0: 0,
+    1: 0,
+    2: 0,
+    3: 0,
+    4: 0,
+    5: 0,
+    6: 0,
+  });
 
   const randomize = () => {
     let randomNum = Math.floor(Math.random() * anecdotes.length);
@@ -21,20 +30,21 @@ function App() {
   };
 
   const voting = () => {
-    const copyArr = [...votes];
-    console.log('selected num: ', selected);
-    console.log(typeof (copyArr[selected] += 1));
-    //setVotes((prevVotes) => console.log(prevVotes[selected]));
+    setVotes((prevVotes) => ({
+      ...prevVotes,
+      [selected]: prevVotes[selected] + 1,
+    }));
   };
 
   return (
     <div>
-      {anecdotes[selected]}
-      <br />
-      <button onClick={randomize}>next anecdote</button>
-      <br />
-      <button onClick={voting}>vote</button>
-      {votes[selected]}
+      <Header text='Anecdote of the Day' />
+      <p>{anecdotes[selected]}</p>
+      <p>has {votes[selected]} votes</p>
+
+      <Button onClick={voting} text='vote' />
+      <Button onClick={randomize} text='next anecdote' />
+      <Header text='Anecdote with Most Votes' />
     </div>
   );
 }
