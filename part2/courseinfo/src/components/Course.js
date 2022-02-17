@@ -3,13 +3,17 @@ import Content from './Content';
 import Total from './Total';
 
 const Course = (props) => {
-  const { course } = props;
+  const { courses } = props;
   return (
-    <div>
-      <Header course={course.name} />
-      <Content parts={course.parts} />
-      <Total parts={course.parts} />
-    </div>
+    <>
+      {courses.map((course) => (
+        <div key={course.id}>
+          <Header courses={course.name} />
+          <Content parts={course.parts} />
+          <Total parts={course.parts} />
+        </div>
+      ))}
+    </>
   );
 };
 
