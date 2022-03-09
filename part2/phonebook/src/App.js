@@ -1,4 +1,8 @@
 import { useState } from 'react';
+import Filter from './components/Filter';
+import Form from './components/Form';
+import Header from './components/Header';
+import Persons from './components/Persons';
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -12,8 +16,9 @@ const App = () => {
 
   //Filtering
   const [search, setSearch] = useState('');
-  const [filterResult, setFilterResult] = useState([]);
+  const [filterResult, setFilterResult] = useState(persons);
 
+  //Add Names
   const addName = (event) => {
     event.preventDefault();
     const personDuplicate = persons
@@ -44,19 +49,31 @@ const App = () => {
 
   const handleFilter = (event) => {
     setSearch(event.target.value);
-    setFilterResult(persons.filter((human) => human.name.toLowerCase()));
+    setFilterResult(
+      persons.filter(
+        (human) =>
+          human.name.toLowerCase().indexOf(event.target.value.toLowerCase()) !==
+          -1
+      )
+    );
+  };
+
+  const addNameObj = {
+    newName,
+    newNumber,
+    handleAddName,
+    handleAddNumber,
   };
 
   return (
     <div>
-      <div>debug: {newName}</div>
-      <div>debug: {newNumber}</div>
-      <h2>Phonebook</h2>
-      <div>
+      <Header name='Phonebook' />
+      {/* <div>
         filter shown with <input value={search} onChange={handleFilter} />
-      </div>
+      </div> */}
+      <Filter />
       <h3>add a new</h3>
-      <form onSubmit={addName}>
+      {/* <form onSubmit={addName}>
         <div>
           name: <input value={newName} onChange={handleAddName} />
         </div>
@@ -66,13 +83,26 @@ const App = () => {
         <div>
           <button type='submit'>add</button>
         </div>
-      </form>
-      <h2>Numbers</h2>
-      {persons.map((human) => (
-        <div key={human.id}>
-          {human.name}: {human.number}
-        </div>
-      ))}
+      </form> */}
+      <Form addName={addName} data={addNameObj} />
+      <Header name='Numbers' />
+      {!search.length ? (
+        <>
+          {persons.map((human) => (
+            <div key={human.id}>
+              {human.name}: {human.number}
+            </div>
+          ))}
+        </>
+      ) : (
+        <>
+          {filterResult.map((human) => (
+            <div key={human.id}>
+              {human.name}: {human.number}
+            </div>
+          ))}
+        </>
+      )}
     </div>
   );
 };
