@@ -1,11 +1,12 @@
-const Form = (props) => {
+const Form = ({ addName, data }) => {
   return (
     <form onSubmit={addName}>
       <div>
-        name: <input value={newName} onChange={handleAddName} />
+        name: <input value={data.newName} onChange={data.handleAddName} />
       </div>
       <div>
-        phone book: <input value={newNumber} onChange={handleAddNumber} />
+        phone book:{' '}
+        <input value={data.newNumber} onChange={data.handleAddNumber} />
       </div>
       <div>
         <button type='submit'>add</button>

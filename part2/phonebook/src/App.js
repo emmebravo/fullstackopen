@@ -67,41 +67,15 @@ const App = () => {
 
   return (
     <div>
-      <Header name='Phonebook' />
-      {/* <div>
-        filter shown with <input value={search} onChange={handleFilter} />
-      </div> */}
-      <Filter />
+      <Header name='Phone book' />
+      <Filter value={search} onChange={handleFilter} />
       <h3>add a new</h3>
-      {/* <form onSubmit={addName}>
-        <div>
-          name: <input value={newName} onChange={handleAddName} />
-        </div>
-        <div>
-          phonebook: <input value={newNumber} onChange={handleAddNumber} />
-        </div>
-        <div>
-          <button type='submit'>add</button>
-        </div>
-      </form> */}
       <Form addName={addName} data={addNameObj} />
       <Header name='Numbers' />
       {!search.length ? (
-        <>
-          {persons.map((human) => (
-            <div key={human.id}>
-              {human.name}: {human.number}
-            </div>
-          ))}
-        </>
+        <Persons filter={persons} />
       ) : (
-        <>
-          {filterResult.map((human) => (
-            <div key={human.id}>
-              {human.name}: {human.number}
-            </div>
-          ))}
-        </>
+        <Persons filter={filterResult} />
       )}
     </div>
   );
