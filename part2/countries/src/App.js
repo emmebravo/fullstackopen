@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
-import FindCountries from './components/FindCountries';
-import Country from './components/Country';
-import './App.css';
+import Filter from './components/Filter';
+import ListCountries from './components/ListCountries';
+
 import axios from 'axios';
 
 function App() {
   const [countries, setCountries] = useState([]);
   const [search, setSearch] = useState('');
-  const [filterResults, setFilterResults] = useState([]);
-  const [country, setCountry] = useState({});
+  // const [filterResults, setFilterResults] = useState([]);
+  // const [country, setCountry] = useState({});
 
   useEffect(() => {
     axios
@@ -17,32 +17,33 @@ function App() {
   }, []);
 
   const searchCountry = (event) => {
-    setSearch(event.target.value);
-    setFilterResults(
-      countries.filter(
-        (country) =>
-          country.name.common
-            .toLowerCase()
-            .indexOf(event.target.value.toLowerCase()) !== -1
-      )
-    );
+    setSearch(event.target.value.toLowerCase());
   };
 
-  const showCountries = () => {
-    filterResults.map((country) => {
-      <p key={country.name.common}>{country.name.common}</p>;
-    });
-  };
+  const searchedCountries = search.length
+    ? countries.filter(
+        (country) => country.name.common.toLowerCase().indexOf(search) !== -1
+      )
+    : countries;
+
+  console.log(searchedCountries);
+
+  // const showCountries = () => {
+  //   filterResults.map((country) => {
+  //     <p key={country.name.common}>{country.name.common}</p>;
+  //   });
+  // };
 
   return (
     <div className='App'>
-      <FindCountries search={search} onChange={searchCountry} />
-      {filterResults.length > 10 ? (
+      <Filter search={search} onChange={searchCountry} />
+      {/* {filterResults.length > 10 ? (
         <p>too many matches, specify another filter</p>
       ) : (
         showCountries()
       )}
-      {filterResults.name && <Country data={setCountry} />}
+      {filterResults.name && <Country data={country} />} */}
+      <ListCountries countries={searchedCountries} />
     </div>
   );
 }
